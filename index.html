@@ -2,7 +2,7 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Admin Console | Patel Traders</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -11,8 +11,40 @@
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #070b14; color: white; margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        :root { --bhagwa: #ff9933; --bhagwa-dark: #cc5500; --bg-superdark: #03050a; }
         
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg-superdark); 
+            color: white; 
+            margin: 0; 
+            overflow-x: hidden; 
+            min-height: 100vh;
+        }
+
+        /* 🟢 SCROLLING FIX WRAPPER */
+        #main-app { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+        
+        /* 🌌 ULTRA-ADVANCED AURORA BACKGROUND */
+        .bg-aurora { position: fixed; inset: 0; z-index: -2; background: var(--bg-superdark); overflow: hidden; }
+        .bg-aurora::after {
+            content: ''; position: absolute; inset: 0;
+            background-image: linear-gradient(rgba(255, 153, 51, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 153, 51, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px; opacity: 0.5; z-index: -1;
+        }
+        .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.35; animation: floatOrb 20s infinite alternate ease-in-out; pointer-events: none; }
+        .orb-1 { width: 500px; height: 500px; background: var(--bhagwa); top: -10%; left: -10%; }
+        .orb-2 { width: 600px; height: 600px; background: #9933ff; bottom: -20%; right: -10%; animation-delay: -5s; }
+        .orb-3 { width: 400px; height: 400px; background: #e60000; top: 40%; left: 30%; animation-delay: -10s; }
+        @keyframes floatOrb { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 100% { transform: translate(80px, 80px) scale(1.3) rotate(20deg); } }
+
+        /* 🔒 Welcome & Lock Screen */
+        #welcome-screen { position: fixed; inset: 0; z-index: 11000; background: rgba(3, 5, 10, 0.85); backdrop-filter: blur(25px); display: flex; align-items: center; justify-content: center; padding: 20px; transition: opacity 0.5s ease-in-out; }
+        .welcome-glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(40px); border: 1px solid rgba(255, 153, 51, 0.2); box-shadow: 0 30px 80px -10px rgba(255, 153, 51, 0.15); }
+        .hero-text-gradient { background: linear-gradient(135deg, #ffffff 40%, var(--bhagwa)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .locked-screen { pointer-events: none; filter: grayscale(1) blur(10px); opacity: 0.2; }
+
+        /* Premium UI Elements */
         .glass-card { background: linear-gradient(135deg, rgba(20, 27, 45, 0.9), rgba(20, 27, 45, 0.95)); backdrop-filter: blur(25px); border: 1px solid rgba(255, 153, 51, 0.2); border-radius: 28px; box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 2px 0 rgba(255,255,255,0.05); transition: all 0.3s ease; }
         
         .m-input { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 14px; padding: 14px 16px; width: 100%; color: white; outline: none; transition: all 0.3s; font-size: 13px; font-weight: 600; }
@@ -34,6 +66,11 @@
         .custom-scroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 10px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255,153,51,0.5); border-radius: 10px; }
 
+        /* Custom Modal Animation */
+        @keyframes popModal { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .animate-pop { animation: popModal 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+
+        /* Hidden PDF Renderers */
         #pdf-wrapper { position: fixed; top: 0; left: 0; opacity: 0.01; z-index: -100; pointer-events: none; display: flex; gap: 20px; }
         .pdf-render { width: 210mm; min-height: 297mm; background: white; color: #0f172a; padding: 15mm; position: relative; font-family: Arial, sans-serif; }
         .pdf-box { border: 2px solid #e2e8f0; border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
@@ -45,98 +82,146 @@
 </head>
 <body>
 
-    <div class="glass-card max-w-lg w-full p-8 m-4">
-        <div class="text-center mb-6">
-            <img src="https://i.ibb.co/G4xsrr6j/qafx-Ln-R-md.png" alt="qafx Ln R md" class="h-16 mx-auto mb-4 object-contain drop-shadow-xl" crossorigin="anonymous">
-            <h1 class="text-2xl font-black uppercase tracking-widest text-[#ff9933]">Admin Console</h1>
-            <p class="text-white/40 text-[10px] mt-1 uppercase font-bold tracking-[2px]">Secure Vault Management</p>
+    <div class="bg-aurora">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div id="custom-modal" class="fixed inset-0 bg-black/80 backdrop-blur-xl z-[99999] hidden flex-col items-center justify-center p-4 transition-opacity">
+        <div class="glass-card p-8 max-w-sm w-full text-center animate-pop" id="cm-card">
+            <div id="cm-icon" class="mb-6 flex justify-center"></div>
+            <h2 id="cm-title" class="text-2xl font-black uppercase tracking-widest mb-2">Title</h2>
+            <p id="cm-msg" class="text-sm text-white/70 font-medium mb-8 leading-relaxed">Message</p>
+            <button onclick="closeCustomModal()" id="cm-ack-btn" class="w-full py-4 bg-white/10 hover:bg-white/20 rounded-xl font-black text-white uppercase tracking-widest transition">Acknowledge</button>
         </div>
+    </div>
 
-        <div class="flex bg-black/30 p-1.5 rounded-2xl mb-6">
-            <div id="tabReg" class="nav-tab active" onclick="switchTab('reg')">New Registration</div>
-            <div id="tabHist" class="nav-tab" onclick="switchTab('hist')">Customer History</div>
-        </div>
-
-        <div id="regView" class="space-y-4">
-            <div>
-                <label class="text-[9px] uppercase font-black text-white/50 ml-2 tracking-widest">Customer Name <span class="text-rose-500">*</span></label>
-                <input type="text" id="cName" placeholder="Full Name" class="m-input mt-1">
-            </div>
-
-            <div class="grid grid-cols-2 gap-3">
-                <div>
-                    <label class="text-[9px] uppercase font-black text-white/50 ml-2 tracking-widest">Mobile <span class="text-rose-500">*</span></label>
-                    <input type="tel" id="cPhone" maxlength="10" placeholder="10 Digits" class="m-input mt-1" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-                </div>
-                <div>
-                    <label class="text-[9px] uppercase font-black text-white/50 ml-2 tracking-widest">Email <span class="text-rose-500">*</span></label>
-                    <input type="email" id="cEmail" placeholder="Mandatory for alerts" class="m-input mt-1 border-rose-500/30 focus:border-[#ff9933]">
-                </div>
-            </div>
-
-            <div class="p-4 bg-white/5 border border-white/10 rounded-2xl mt-2">
-                <p class="text-[9px] text-[#ff9933] font-black uppercase mb-3 tracking-widest">Login Credentials (Optional)</p>
-                <div class="grid grid-cols-2 gap-3">
-                    <input type="text" id="cUser" placeholder="Username (Opt)" class="m-input py-2 text-xs">
-                    <input type="text" id="cPass" placeholder="Password (Opt)" class="m-input py-2 text-xs">
-                </div>
-                <p class="text-[8px] text-white/40 mt-2 font-bold leading-relaxed">
-                    Leave blank to Auto-Generate.<br>Username = Mobile No. | Password = Name@2026
-                </p>
-            </div>
-
-            <div id="regError" class="hidden bg-rose-500/10 border border-rose-500/30 text-rose-500 text-[10px] font-bold p-3 rounded-xl mt-2 text-center uppercase tracking-widest"></div>
-
-            <button onclick="registerDirectCustomer()" id="btnSubmit" class="btn-bhagwa w-full py-4 text-xs mt-2">
-                Register & Send Welcome Email →
+    <div id="welcome-screen">
+        <div class="welcome-glass p-10 md:p-14 rounded-[40px] text-center max-w-lg w-full mx-4 border-t-4 border-[#ff9933] relative overflow-hidden">
+            <img src="https://i.ibb.co/G4xsrr6j/qafx-Ln-R-md.png" class="w-32 mx-auto mb-10 rounded-3xl border-2 border-[#ff9933]/60 shadow-2xl shadow-[#ff9933]/50 relative z-10 object-contain" crossorigin="anonymous">
+            <h1 class="text-5xl font-black uppercase tracking-tighter mb-3 hero-text-gradient relative z-10 italic">Patel Traders</h1>
+            <p class="text-[#ff9933] font-bold text-sm tracking-[6px] uppercase mb-8 relative z-10">Direct Admin Portal</p>
+            <button onclick="initializeSystem()" class="group relative w-full py-5 bg-gradient-to-r from-[#ff9933] to-[#cc5500] rounded-2xl overflow-hidden shadow-[0_20px_40px_-15px_rgba(255,153,51,0.6)] transition-all hover:scale-[1.02] active:scale-[0.98] z-10 cursor-pointer border border-[#ff9933]/50">
+                <span class="relative z-10 font-black uppercase text-sm tracking-[3px] flex items-center justify-center gap-4 text-white">
+                    Initialize System
+                </span>
             </button>
         </div>
+    </div>
 
-        <div id="successScreen" class="text-center hidden">
-            <div class="w-16 h-16 mx-auto bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center mb-4 border border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.2)]">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+    <div id="security-lock" class="fixed inset-0 bg-black/80 backdrop-blur-2xl z-[9999] flex-col items-center justify-center" style="display: none;">
+        <div class="text-center mb-8">
+            <div class="w-24 h-24 mx-auto mb-4 bg-[#0f172a] rounded-full flex items-center justify-center border-4 border-[#ff9933] shadow-[0_0_30px_rgba(255,153,51,0.4)]">
+                <svg class="w-10 h-10 text-[#ff9933]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
             </div>
-            <h2 class="text-xl font-black uppercase text-emerald-400 mb-1 tracking-widest">Registered!</h2>
-            <p class="text-[10px] text-white/50 font-bold mb-6">Welcome email and PDF sent to customer.</p>
-
-            <div class="bg-black/40 p-4 rounded-xl border border-white/5 text-left mb-6 space-y-2">
-                <div class="flex justify-between"><span class="text-[9px] text-white/40 uppercase font-black">Vault ID:</span> <span id="sId" class="text-[10px] font-black text-[#ff9933]"></span></div>
-                <div class="flex justify-between"><span class="text-[9px] text-white/40 uppercase font-black">Username:</span> <span id="sUser" class="text-[10px] font-bold text-white"></span></div>
-                <div class="flex justify-between"><span class="text-[9px] text-white/40 uppercase font-black">Password:</span> <span id="sPass" class="text-[10px] font-bold text-white"></span></div>
-            </div>
-
-            <div class="space-y-3">
-                <button onclick="downloadAOF()" class="btn-bhagwa w-full py-3.5 text-[10px] flex items-center justify-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                    Download Acknowledgement (AOF)
-                </button>
-                <button onclick="downloadTC()" class="btn-bhagwa btn-outline w-full py-3.5 text-[10px]">
-                    Download Terms & Conditions
-                </button>
-                <button onclick="resetForm()" class="text-[9px] text-white/40 uppercase font-black hover:text-white transition mt-4 inline-block">
-                    + Register Another Customer
-                </button>
-            </div>
+            <h2 id="lockStatus" class="text-2xl font-black uppercase text-white tracking-widest">Vault Locked</h2>
+            <p id="lockMsg" class="text-[#ff9933] text-[12px] mt-2 font-bold tracking-[3px] uppercase">Awaiting Master PIN</p>
         </div>
+        <div id="pinDots" class="flex gap-5 mb-12"><div class="w-5 h-5 rounded-full border-2 border-white/20"></div><div class="w-5 h-5 rounded-full border-2 border-white/20"></div><div class="w-5 h-5 rounded-full border-2 border-white/20"></div><div class="w-5 h-5 rounded-full border-2 border-white/20"></div></div>
+        <div id="numpad" class="grid grid-cols-3 gap-5 w-full max-w-[300px]">
+            <script>for(let i=1;i<=9;i++) document.write(`<button onclick="pressPin('${i}')" class="py-6 glass-card font-black text-3xl text-white rounded-3xl hover:bg-white/10 active:bg-[#ff9933] transition shadow-lg">${i}</button>`)</script>
+            <button onclick="clearPin()" class="py-6 text-rose-500 font-bold hover:bg-rose-500/20 rounded-3xl transition tracking-widest text-sm">CLR</button>
+            <button onclick="pressPin('0')" class="py-6 glass-card font-black text-3xl text-white rounded-3xl hover:bg-white/10 active:bg-[#ff9933] transition shadow-lg">0</button>
+        </div>
+    </div>
 
-        <div id="histView" class="hidden">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-[11px] uppercase font-black text-[#ff9933] tracking-widest">Recent Registrations</h3>
-                <button onclick="loadHistory()" class="text-[9px] bg-white/10 px-3 py-1.5 rounded-lg font-bold hover:bg-white/20 transition">↻ Refresh</button>
+    <div id="main-app" class="hidden w-full">
+        <div class="glass-card max-w-lg w-full p-8 m-4">
+            <div class="flex justify-between items-start mb-6">
+                <div class="text-left">
+                    <h1 class="text-2xl font-black uppercase tracking-widest text-[#ff9933]">Admin Console</h1>
+                    <p class="text-white/40 text-[10px] mt-1 uppercase font-bold tracking-[2px]">Direct Customer Registration</p>
+                </div>
+                <img src="https://i.ibb.co/G4xsrr6j/qafx-Ln-R-md.png" alt="Logo" class="h-14 object-contain drop-shadow-xl" crossorigin="anonymous">
             </div>
-            
-            <div class="max-h-[350px] overflow-y-auto custom-scroll pr-2">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="border-b-2 border-white/10 text-[9px] uppercase text-white/40 tracking-widest">
-                            <th class="pb-3 pt-2 pl-2">Date</th>
-                            <th class="pb-3 pt-2">Name</th>
-                            <th class="pb-3 pt-2">Mobile</th>
-                            <th class="pb-3 pt-2 text-right pr-2">Vault ID</th>
-                        </tr>
-                    </thead>
-                    <tbody id="historyTableBody"></tbody>
-                </table>
+
+            <div class="flex bg-black/30 p-1.5 rounded-2xl mb-6">
+                <div id="tabReg" class="nav-tab active" onclick="switchTab('reg')">New Registration</div>
+                <div id="tabHist" class="nav-tab" onclick="switchTab('hist')">Customer History</div>
+            </div>
+
+            <div id="regView" class="space-y-4">
+                <div>
+                    <label class="text-[9px] uppercase font-black text-white/50 ml-2 tracking-widest">Customer Name <span class="text-rose-500">*</span></label>
+                    <input type="text" id="cName" placeholder="Full Name" class="m-input mt-1">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-[9px] uppercase font-black text-white/50 ml-2 tracking-widest">Mobile <span class="text-rose-500">*</span></label>
+                        <input type="tel" id="cPhone" maxlength="10" placeholder="10 Digits" class="m-input mt-1" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                    </div>
+                    <div>
+                        <label class="text-[9px] uppercase font-black text-white/50 ml-2 tracking-widest">Email <span class="text-rose-500">*</span></label>
+                        <input type="email" id="cEmail" placeholder="Mandatory for alerts" class="m-input mt-1 border-rose-500/30 focus:border-[#ff9933]">
+                    </div>
+                </div>
+
+                <div class="p-4 bg-white/5 border border-white/10 rounded-2xl mt-2">
+                    <p class="text-[9px] text-[#ff9933] font-black uppercase mb-3 tracking-widest">Login Credentials (Optional)</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <input type="text" id="cUser" placeholder="Username (Opt)" class="m-input py-2 text-xs">
+                        <input type="text" id="cPass" placeholder="Password (Opt)" class="m-input py-2 text-xs">
+                    </div>
+                    <p class="text-[8px] text-white/40 mt-2 font-bold leading-relaxed">
+                        Leave blank to Auto-Generate.<br>Username = Mobile No. | Password = Name@2026
+                    </p>
+                </div>
+
+                <div id="regError" class="hidden bg-rose-500/10 border border-rose-500/30 text-rose-500 text-[10px] font-bold p-3 rounded-xl mt-2 text-center uppercase tracking-widest"></div>
+
+                <button onclick="registerDirectCustomer()" id="btnSubmit" class="btn-bhagwa w-full py-4 text-xs mt-2">
+                    Register & Send Welcome Email →
+                </button>
+            </div>
+
+            <div id="successScreen" class="text-center hidden">
+                <div class="w-16 h-16 mx-auto bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center mb-4 border border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.2)]">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h2 class="text-xl font-black uppercase text-emerald-400 mb-1 tracking-widest">Registered!</h2>
+                <p class="text-[10px] text-white/50 font-bold mb-6">Welcome email and PDF sent to customer.</p>
+
+                <div class="bg-black/40 p-4 rounded-xl border border-white/5 text-left mb-6 space-y-2">
+                    <div class="flex justify-between"><span class="text-[9px] text-white/40 uppercase font-black">Vault ID:</span> <span id="sId" class="text-[10px] font-black text-[#ff9933]"></span></div>
+                    <div class="flex justify-between"><span class="text-[9px] text-white/40 uppercase font-black">Username:</span> <span id="sUser" class="text-[10px] font-bold text-white"></span></div>
+                    <div class="flex justify-between"><span class="text-[9px] text-white/40 uppercase font-black">Password:</span> <span id="sPass" class="text-[10px] font-bold text-white"></span></div>
+                </div>
+
+                <div class="space-y-3">
+                    <button onclick="downloadAOF()" class="btn-bhagwa w-full py-3.5 text-[10px] flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Download Acknowledgement (AOF)
+                    </button>
+                    <button onclick="downloadTC()" class="btn-bhagwa btn-outline w-full py-3.5 text-[10px]">
+                        Download Terms & Conditions
+                    </button>
+                    <button onclick="resetForm()" class="text-[9px] text-white/40 uppercase font-black hover:text-white transition mt-4 inline-block">
+                        + Register Another Customer
+                    </button>
+                </div>
+            </div>
+
+            <div id="histView" class="hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-[11px] uppercase font-black text-[#ff9933] tracking-widest">Recent Registrations</h3>
+                    <button onclick="loadHistory()" class="text-[9px] bg-white/10 px-3 py-1.5 rounded-lg font-bold hover:bg-white/20 transition">↻ Refresh</button>
+                </div>
+                
+                <div class="max-h-[350px] overflow-y-auto custom-scroll pr-2">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b-2 border-white/10 text-[9px] uppercase text-white/40 tracking-widest">
+                                <th class="pb-3 pt-2 pl-2">Date</th>
+                                <th class="pb-3 pt-2">Name</th>
+                                <th class="pb-3 pt-2">Mobile</th>
+                                <th class="pb-3 pt-2 text-right pr-2">Vault ID</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTableBody"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -192,11 +277,129 @@
     <script>
         const CONFIG = {
             URL: "https://script.google.com/macros/s/AKfycbwRkV4suBp5pevMftyD_6gMGmgrmuFanugmFWgUz-5LkFVwf7Arp5O9uj1ectOZ7K6Txw/exec",
-            TOKEN: "PT_ULTRA_7314_SANJAY_2026"
+            TOKEN: "PT_ULTRA_7314_SANJAY_2026",
+            PIN: "7314"
         };
 
         let currentCust = {};
 
+        // 🧠 SECURITY LOCKOUT LOGIC
+        let currentPin = "", 
+            attempts = parseInt(localStorage.getItem('pt_dr_pin_attempts') || '0'),
+            lockTimerInterval;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if(localStorage.getItem('pt_dr_welcome_seen') === 'true') {
+                document.getElementById('welcome-screen').style.display = 'none';
+                document.getElementById('security-lock').style.display = 'flex';
+                checkLockoutState(); 
+            }
+        });
+
+        function initializeSystem() {
+            localStorage.setItem('pt_dr_welcome_seen', 'true'); 
+            document.getElementById('welcome-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('welcome-screen').style.display = 'none';
+                document.getElementById('security-lock').style.display = 'flex';
+                checkLockoutState(); 
+            }, 500);
+        }
+
+        function checkLockoutState() {
+            const lockoutTime = localStorage.getItem('pt_dr_lockout_time');
+            if (lockoutTime) {
+                const remainingSecs = Math.floor((parseInt(lockoutTime) - Date.now()) / 1000);
+                if (remainingSecs > 0) { startLockTimer(remainingSecs); } 
+                else { localStorage.removeItem('pt_dr_lockout_time'); localStorage.setItem('pt_dr_pin_attempts', '0'); attempts = 0; }
+            }
+        }
+
+        function pressPin(n) {
+            if(localStorage.getItem('pt_dr_lockout_time') && parseInt(localStorage.getItem('pt_dr_lockout_time')) > Date.now()) return;
+
+            if(currentPin.length < 4) {
+                currentPin += n; updateDots();
+                
+                if(currentPin === CONFIG.PIN) {
+                    document.getElementById('security-lock').style.display = 'none';
+                    document.getElementById('main-app').classList.remove('hidden');
+                    attempts = 0;
+                    localStorage.setItem('pt_dr_pin_attempts', '0');
+                    localStorage.removeItem('pt_dr_lockout_time');
+                } else if(currentPin.length === 4) {
+                    attempts++;
+                    localStorage.setItem('pt_dr_pin_attempts', attempts.toString()); 
+                    
+                    if(attempts >= 5) {
+                        const lockUntil = Date.now() + (300 * 1000);
+                        localStorage.setItem('pt_dr_lockout_time', lockUntil.toString());
+                        startLockTimer(300);
+                    } else { 
+                        showCustomAlert('error', 'Security Alert', `Incorrect PIN! ${5 - attempts} attempts remaining.`);
+                        clearPin(); 
+                    }
+                }
+            }
+        }
+
+        function startLockTimer(secondsLeft) {
+            let timer = secondsLeft;
+            document.getElementById('numpad').classList.add('locked-screen');
+            document.getElementById('lockStatus').innerText = "SYSTEM LOCKED";
+            document.getElementById('lockStatus').style.color = "#e11d48";
+            
+            clearInterval(lockTimerInterval); 
+            
+            document.getElementById('lockMsg').innerText = `Security Timeout: ${Math.floor(timer/60)}m ${timer%60}s`;
+            document.getElementById('lockMsg').style.color = "#e11d48";
+
+            lockTimerInterval = setInterval(() => {
+                timer--;
+                document.getElementById('lockMsg').innerText = `Security Timeout: ${Math.floor(timer/60)}m ${timer%60}s`;
+                
+                if(timer <= 0) { 
+                    clearInterval(lockTimerInterval); 
+                    localStorage.removeItem('pt_dr_lockout_time');
+                    localStorage.setItem('pt_dr_pin_attempts', '0');
+                    attempts = 0;
+                    
+                    document.getElementById('numpad').classList.remove('locked-screen'); 
+                    document.getElementById('lockStatus').innerText = "Vault Locked"; 
+                    document.getElementById('lockStatus').style.color = "#ffffff";
+                    document.getElementById('lockMsg').innerText = "Awaiting Master PIN"; 
+                    document.getElementById('lockMsg').style.color = "#ff9933";
+                    clearPin(); 
+                }
+            }, 1000);
+        }
+
+        function updateDots() { document.querySelectorAll('#pinDots div').forEach((d, i) => { d.style.background = i < currentPin.length ? '#ff9933' : 'transparent'; d.style.borderColor = i < currentPin.length ? '#ff9933' : 'rgba(255,255,255,0.2)'; }); }
+        function clearPin() { currentPin = ""; updateDots(); }
+
+        // 🌟 CUSTOM MODAL SYSTEM
+        function showCustomAlert(type, title, msg) {
+            document.getElementById('cm-title').innerText = title;
+            document.getElementById('cm-msg').innerText = msg;
+            document.getElementById('cm-card').className = `glass-card p-8 max-w-sm w-full text-center animate-pop border-t-4 ${type==='success'?'border-emerald-500': type==='warning'?'border-[#ff9933]':'border-rose-500'}`;
+            
+            let iconHTML = '';
+            if(type === 'success') iconHTML = `<div class="w-16 h-16 bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.3)]"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg></div>`;
+            else if(type === 'warning') iconHTML = `<div class="w-16 h-16 bg-[#ff9933]/20 text-[#ff9933] rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(255,153,51,0.3)]"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg></div>`;
+            else iconHTML = `<div class="w-16 h-16 bg-rose-500/20 text-rose-500 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(244,63,94,0.3)]"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg></div>`;
+            
+            document.getElementById('cm-icon').innerHTML = iconHTML;
+            const modal = document.getElementById('custom-modal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
+        function closeCustomModal() {
+            const modal = document.getElementById('custom-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => { modal.style.display = 'none'; }, 300);
+        }
+
+        // --- REGISTRATION LOGIC ---
         function switchTab(tab) {
             document.getElementById('tabReg').classList.remove('active');
             document.getElementById('tabHist').classList.remove('active');
@@ -242,7 +445,7 @@
             const custId = "PT-V-" + Math.floor(100000 + Math.random() * 900000);
 
             try {
-                // 🟢 DUPLICATE PRE-CHECK LOGIC (The Fix)
+                // 🟢 DUPLICATE PRE-CHECK LOGIC 
                 const checkRes = await fetch(`${CONFIG.URL}?action=getUsers&token=${CONFIG.TOKEN}`);
                 const existingUsers = await checkRes.json();
                 
@@ -254,7 +457,7 @@
                     );
                     
                     if(isDup) {
-                        showError(`⚠️ DUPLICATE FOUND: ${isDup.name} is already registered with this details.`);
+                        showCustomAlert('error', 'Duplicate Found', `${isDup.name} is already registered with this data.`);
                         btn.disabled = false;
                         btn.innerText = "Register & Send Welcome Email →";
                         return; // Stop processing!
@@ -288,7 +491,7 @@
                 document.getElementById('successScreen').style.display = 'block';
 
             } catch (error) {
-                showError("Network Error: Could not connect to Master Vault.");
+                showCustomAlert('error', 'Network Error', 'Could not connect to Master Vault.');
             } finally {
                 btn.disabled = false;
                 btn.innerText = "Register & Send Welcome Email →";
@@ -343,7 +546,7 @@
                     const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
                     pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
                     pdf.save(`AOF_${currentCust.custId}.pdf`);
-                } catch(e) { alert("PDF Error"); }
+                } catch(e) { showCustomAlert('error', 'PDF Error', 'Failed to generate PDF.'); }
                 btn.innerHTML = origText; btn.disabled = false;
             }, 500);
         }
@@ -357,7 +560,7 @@
                     const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
                     pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
                     pdf.save(`Terms_Conditions.pdf`);
-                } catch(e) { alert("PDF Error"); }
+                } catch(e) { showCustomAlert('error', 'PDF Error', 'Failed to generate PDF.'); }
                 btn.innerHTML = origText; btn.disabled = false;
             }, 500);
         }
