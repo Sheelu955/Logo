@@ -22,10 +22,8 @@
             min-height: 100vh;
         }
 
-        /* 🟢 SCROLLING FIX WRAPPER */
         #main-app { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
         
-        /* 🌌 ULTRA-ADVANCED AURORA BACKGROUND */
         .bg-aurora { position: fixed; inset: 0; z-index: -2; background: var(--bg-superdark); overflow: hidden; }
         .bg-aurora::after {
             content: ''; position: absolute; inset: 0;
@@ -38,13 +36,11 @@
         .orb-3 { width: 400px; height: 400px; background: #e60000; top: 40%; left: 30%; animation-delay: -10s; }
         @keyframes floatOrb { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 100% { transform: translate(80px, 80px) scale(1.3) rotate(20deg); } }
 
-        /* 🔒 Welcome & Lock Screen */
         #welcome-screen { position: fixed; inset: 0; z-index: 11000; background: rgba(3, 5, 10, 0.85); backdrop-filter: blur(25px); display: flex; align-items: center; justify-content: center; padding: 20px; transition: opacity 0.5s ease-in-out; }
         .welcome-glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(40px); border: 1px solid rgba(255, 153, 51, 0.2); box-shadow: 0 30px 80px -10px rgba(255, 153, 51, 0.15); }
         .hero-text-gradient { background: linear-gradient(135deg, #ffffff 40%, var(--bhagwa)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .locked-screen { pointer-events: none; filter: grayscale(1) blur(10px); opacity: 0.2; }
 
-        /* Premium UI Elements */
         .glass-card { background: linear-gradient(135deg, rgba(20, 27, 45, 0.9), rgba(20, 27, 45, 0.95)); backdrop-filter: blur(25px); border: 1px solid rgba(255, 153, 51, 0.2); border-radius: 28px; box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 2px 0 rgba(255,255,255,0.05); transition: all 0.3s ease; }
         
         .m-input { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 14px; padding: 14px 16px; width: 100%; color: white; outline: none; transition: all 0.3s; font-size: 13px; font-weight: 600; }
@@ -66,11 +62,9 @@
         .custom-scroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 10px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255,153,51,0.5); border-radius: 10px; }
 
-        /* Custom Modal Animation */
         @keyframes popModal { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         .animate-pop { animation: popModal 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 
-        /* Hidden PDF Renderers */
         #pdf-wrapper { position: fixed; top: 0; left: 0; opacity: 0.01; z-index: -100; pointer-events: none; display: flex; gap: 20px; }
         .pdf-render { width: 210mm; min-height: 297mm; background: white; color: #0f172a; padding: 15mm; position: relative; font-family: Arial, sans-serif; }
         .pdf-box { border: 2px solid #e2e8f0; border-radius: 8px; margin-bottom: 20px; overflow: hidden; }
@@ -168,8 +162,6 @@
                         Leave blank to Auto-Generate.<br>Username = Mobile No. | Password = Name@2026
                     </p>
                 </div>
-
-                <div id="regError" class="hidden bg-rose-500/10 border border-rose-500/30 text-rose-500 text-[10px] font-bold p-3 rounded-xl mt-2 text-center uppercase tracking-widest"></div>
 
                 <button onclick="registerDirectCustomer()" id="btnSubmit" class="btn-bhagwa w-full py-4 text-xs mt-2">
                     Register & Send Welcome Email →
@@ -276,17 +268,13 @@
 
     <script>
         const CONFIG = {
-            URL: "https://script.google.com/macros/s/AKfycbwRkV4suBp5pevMftyD_6gMGmgrmuFanugmFWgUz-5LkFVwf7Arp5O9uj1ectOZ7K6Txw/exec",
+            URL: "https://script.google.com/macros/s/AKfycbwRkV4suBp5pevMftyD_6gMGmgrmuFanugmFWgUz-5LkFVwf7Arp5O9uj1ectOZ7K6Txw/exec", // Correct v17.0 Backend link
             TOKEN: "PT_ULTRA_7314_SANJAY_2026",
             PIN: "7314"
         };
 
         let currentCust = {};
-
-        // 🧠 SECURITY LOCKOUT LOGIC
-        let currentPin = "", 
-            attempts = parseInt(localStorage.getItem('pt_dr_pin_attempts') || '0'),
-            lockTimerInterval;
+        let currentPin = "", attempts = parseInt(localStorage.getItem('pt_dr_pin_attempts') || '0'), lockTimerInterval;
 
         window.addEventListener('DOMContentLoaded', () => {
             if(localStorage.getItem('pt_dr_welcome_seen') === 'true') {
@@ -377,7 +365,6 @@
         function updateDots() { document.querySelectorAll('#pinDots div').forEach((d, i) => { d.style.background = i < currentPin.length ? '#ff9933' : 'transparent'; d.style.borderColor = i < currentPin.length ? '#ff9933' : 'rgba(255,255,255,0.2)'; }); }
         function clearPin() { currentPin = ""; updateDots(); }
 
-        // 🌟 CUSTOM MODAL SYSTEM
         function showCustomAlert(type, title, msg) {
             document.getElementById('cm-title').innerText = title;
             document.getElementById('cm-msg').innerText = msg;
@@ -399,14 +386,12 @@
             setTimeout(() => { modal.style.display = 'none'; }, 300);
         }
 
-        // --- REGISTRATION LOGIC ---
         function switchTab(tab) {
             document.getElementById('tabReg').classList.remove('active');
             document.getElementById('tabHist').classList.remove('active');
             document.getElementById('regView').style.display = 'none';
             document.getElementById('histView').style.display = 'none';
             document.getElementById('successScreen').style.display = 'none';
-            document.getElementById('regError').classList.add('hidden');
 
             if(tab === 'reg') {
                 document.getElementById('tabReg').classList.add('active');
@@ -418,12 +403,6 @@
             }
         }
 
-        function showError(msg) {
-            const errBox = document.getElementById('regError');
-            errBox.innerText = msg;
-            errBox.classList.remove('hidden');
-        }
-
         async function registerDirectCustomer() {
             const name = document.getElementById('cName').value.trim();
             const phone = document.getElementById('cPhone').value.trim();
@@ -432,10 +411,8 @@
             let pass = document.getElementById('cPass').value.trim();
             const btn = document.getElementById('btnSubmit');
 
-            document.getElementById('regError').classList.add('hidden');
-
-            if(!name || phone.length !== 10) { showError("Please enter Full Name & 10-Digit Mobile."); return; }
-            if(!email || !email.includes('@')) { showError("Email is MANDATORY."); return; }
+            if(!name || phone.length !== 10) { showCustomAlert("warning", "Missing Details", "Please enter Full Name & 10-Digit Mobile."); return; }
+            if(!email || !email.includes('@')) { showCustomAlert("warning", "Missing Email", "Email is MANDATORY."); return; }
 
             btn.disabled = true;
             btn.innerText = "Checking Existing Records...";
@@ -444,35 +421,44 @@
             if(!pass) pass = name.split(' ')[0].toLowerCase() + "@2026";
             const custId = "PT-V-" + Math.floor(100000 + Math.random() * 900000);
 
+            let isDuplicate = false;
+            // 🟢 ERROR SAFE-GUARD (Try-Catch inside)
             try {
-                // 🟢 DUPLICATE PRE-CHECK LOGIC 
                 const checkRes = await fetch(`${CONFIG.URL}?action=getUsers&token=${CONFIG.TOKEN}`);
                 const existingUsers = await checkRes.json();
                 
                 if(!existingUsers.error && existingUsers.length > 0) {
-                    const isDup = existingUsers.find(x => 
+                    const found = existingUsers.find(x => 
                         String(x.phone).slice(-10) === phone || 
                         (x.email && x.email.toLowerCase() === email.toLowerCase()) || 
                         (x.username && x.username.toLowerCase() === user.toLowerCase())
                     );
                     
-                    if(isDup) {
-                        showCustomAlert('error', 'Duplicate Found', `${isDup.name} is already registered with this data.`);
-                        btn.disabled = false;
-                        btn.innerText = "Register & Send Welcome Email →";
-                        return; // Stop processing!
+                    if(found) {
+                        showCustomAlert('error', 'Duplicate Found', `${found.name} is already registered with this data.`);
+                        isDuplicate = true;
                     }
                 }
+            } catch(e) {
+                console.log("Duplicate check skipped due to network block.");
+            }
 
-                btn.innerText = "Creating Secure Vault...";
-                currentCust = { name, phone, email, user, pass, custId };
+            if(isDuplicate) {
+                btn.disabled = false;
+                btn.innerText = "Register & Send Welcome Email →";
+                return; // Stop processing
+            }
 
-                const payload = {
-                    token: CONFIG.TOKEN, type: "USER",
-                    user: user, phone: phone, email: email, name: name,
-                    data: { custid: custId, name: name, phone: phone, username: user, password: pass, email: email, aadhaar: "", photo: "", dob: "" }
-                };
+            btn.innerText = "Creating Secure Vault...";
+            currentCust = { name, phone, email, user, pass, custId };
 
+            const payload = {
+                token: CONFIG.TOKEN, type: "USER",
+                user: user, phone: phone, email: email, name: name,
+                data: { custid: custId, name: name, phone: phone, username: user, password: pass, email: email, aadhaar: "", photo: "", dob: "" }
+            };
+
+            try {
                 await fetch(CONFIG.URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
 
                 // Display Success
@@ -491,7 +477,7 @@
                 document.getElementById('successScreen').style.display = 'block';
 
             } catch (error) {
-                showCustomAlert('error', 'Network Error', 'Could not connect to Master Vault.');
+                showCustomAlert('error', 'Network Error', 'Could not connect to Master Vault. Please check your connection.');
             } finally {
                 btn.disabled = false;
                 btn.innerText = "Register & Send Welcome Email →";
@@ -569,7 +555,6 @@
             document.getElementById('cName').value = ''; document.getElementById('cPhone').value = '';
             document.getElementById('cEmail').value = ''; document.getElementById('cUser').value = '';
             document.getElementById('cPass').value = '';
-            document.getElementById('regError').classList.add('hidden');
             document.getElementById('successScreen').style.display = 'none';
             document.getElementById('regView').style.display = 'block';
         }
